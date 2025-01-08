@@ -17,3 +17,6 @@ class Filme:
 
     def __str__(self):
         return f"Título: {self.titulo}, Diretor: {self.diretor}, Gênero: {self.genero}, Ano: {self.ano}"
+
+    def __repr__(self):
+        return f"Filme({repr(self.titulo)}, {repr(self.diretor)}, {repr(self.genero)}, {repr(self.ano)})"
