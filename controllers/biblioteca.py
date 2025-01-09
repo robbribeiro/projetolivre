@@ -1,52 +1,64 @@
 import json
+from models.midia import Midia
 from models.filme import Filme
+from models.serie import Serie
 
-class BibliotecaDeFilmes:
-    def __init__(self, arquivo_json='filmes.json'):
+class BibliotecaDeMidias:
+    def __init__(self, arquivo_json='midias.json'):
         self.arquivo_json = arquivo_json
-        self.filmes = self.carregar_filmes()
+        self.midias = self.carregar_midias()
 
-    def carregar_filmes(self):
+    def carregar_midias(self):
         try:
             with open(self.arquivo_json, 'r', encoding='utf-8') as f:
-                filmes_data = json.load(f)
-                return [Filme(**filme) for filme in filmes_data]
+                midias_data = json.load(f)
+                midias = []
+                for midia in midias_data:
+                    tipo = midia.pop("tipo", None)  # Remove o campo "tipo"
+                    if tipo == "filme":
+                        midias.append(Filme(**midia))
+                    elif tipo == "serie":
+                        midias.append(Serie(**midia))
+            return midias
         except FileNotFoundError:
             return []
         except json.JSONDecodeError:
             print("Erro ao ler o arquivo JSON.")
             return []
 
-    def salvar_filmes(self):
-        filmes_data = [filme.__dict__ for filme in self.filmes]
+    def salvar_midias(self):
+        midias_data = [
+            {**midia.__dict__, "tipo": "filme" if isinstance(midia, Filme) else "serie"} 
+            for midia in self.midias
+        ]
         with open(self.arquivo_json, 'w', encoding='utf-8') as f:
-            json.dump(filmes_data, f, indent=4)
+            json.dump(midias_data, f, indent=4)
 
-    def adicionar_filme(self, filme):
-        self.filmes.append(filme)
-        self.salvar_filmes()
-        print("Filme adicionado com sucesso!")
+    def adicionar_midia(self, midia):
+        self.midias.append(midia)
+        self.salvar_midias()
+        print("Mídia adicionada com sucesso!")
 
-    def listar_filmes(self):
-        if not self.filmes:
+    def listar_midias(self):
+        if not self.midias:
             print("A biblioteca está vazia.")
         else:
-            for i, filme in enumerate(self.filmes, start=1):
-                print(f"{i}. {filme}")
+            for i, midia in enumerate(self.midias, start=1):
+                print(f"{i}. {midia}")
 
-    def excluir_filme(self, indice):
+    def excluir_midia(self, indice):
         try:
-            filme_removido = self.filmes.pop(indice - 1)
-            self.salvar_filmes()
-            print(f"Filme '{filme_removido.titulo}' removido com sucesso!")
+            midia_removida = self.midias.pop(indice - 1)
+            self.salvar_midias()
+            print(f"Mídia '{midia_removida.titulo}' removida com sucesso!")
         except IndexError:
             print("Índice inválido.")
 
-    def atualizar_filme(self, indice, **detalhes):
+    def atualizar_midia(self, indice, **detalhes):
         try:
-            filme = self.filmes[indice - 1]
-            filme.atualizar_detalhes(**detalhes)
-            self.salvar_filmes()
-            print("Detalhes do filme atualizados com sucesso!")
+            midia = self.midias[indice - 1]
+            midia.atualizar_detalhes(**detalhes)
+            self.salvar_midias()
+            print("Detalhes da mídia atualizados com sucesso!")
         except IndexError:
             print("Índice inválido.")
