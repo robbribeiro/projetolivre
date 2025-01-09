@@ -1,6 +1,6 @@
 # **BIBLIOTECA DE FILMES E SÉRIES EM PYTHON**
 
-Este projeto é uma biblioteca de filmes e séries desenvolvida em Python para a matéria de Programação Orientada a Objetos (POO). O objetivo do projeto é criar uma biblioteca que permita adicionar, listar, excluir e atualizar tanto filmes quanto séries, além de demonstrar o uso de conceitos de POO, como herança e polimorfismo.
+Este projeto é uma biblioteca de filmes e séries desenvolvida em Python para a matéria de Programação Orientada a Objetos (POO). O objetivo do projeto é criar uma biblioteca que permita adicionar, listar, excluir e atualizar tanto filmes quanto séries, além de demonstrar o uso de conceitos de POO, como herança, encapsulamento e serielização.
 
 ## **FUNCIONALIDADES**
 
